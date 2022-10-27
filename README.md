@@ -3,7 +3,10 @@ A drop-down menu, a mobile menu, and an image slider for practicing javascrip. T
 
 ## Drop-Down Menu Checklist
 - Requirements:
-    - Show menu on click or hover over menu icon
-    - Hard-code menu items into the HTML
-    - Hide/reveal menu items with JavaScript
-    - Make the code reusable so multiple drop-down menus can be created on a page without repeating JavaScript code
+    - ~~Show menu on click or hover over menu icon~~
+    - ~~Hard-code menu items into the HTML~~
+    - ~~Hide/reveal menu items with JavaScript~~
+    - ~~Make the code reusable so multiple drop-down menus can be created on a page without repeating JavaScript code~~
+
+## Mobile Menu
+    - Create a progressively collapsing menu with a more button
