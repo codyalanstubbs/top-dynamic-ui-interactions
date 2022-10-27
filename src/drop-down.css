@@ -4,7 +4,13 @@ ul {
 }
 
 li {
+    
     list-style-type: none;
+}
+
+a {
+    color: goldenrod;
+    text-decoration: none;
 }
 
 .menu {

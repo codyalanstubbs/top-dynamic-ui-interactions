@@ -1,0 +1,102 @@
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    border: 0px;
+    list-style-type: none;
+}
+
+a {
+    color: goldenrod;
+    text-decoration: none;
+}
+
+.tabs {
+    position: relative;
+    width: 100%;
+}
+
+.tabs .menu.horizontal {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    top: 100px;
+}
+
+.menu.horizontal>.menuItem:hover {
+    font-weight: 400;
+}
+
+.tabs .menu.horizontal > .menuItem {
+    height: 50px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+}
+
+.tabs .menu.horizontal > .menuItem.hidden {
+    display: none;
+}
+
+.tabs .menu.horizontal > li >a,
+.tabs .menu.horizontal > li >button {
+    flex-grow: 1;
+    border-radius: 0;
+    white-space: nowrap;
+    padding: 0 10px;
+}
+
+.tabs .secondary {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+}
+
+.tabs.show-secondary .secondary {
+    display: block;
+}
+
+.more > button > span {
+    display: inline-block;
+}
+
+.tabs .hidden,
+.tabs.show-secondary .secondary > .hidden {
+    display: none;
+}
+
+.menuButton {
+    background-color: goldenrod;
+    border: 2px solid goldenrod;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    font-weight: 600;
+}
+
+.tabs .menu.horizontal > li > button:hover,
+.tabs.show-secondary .secondary > li:hover {
+    cursor: pointer;
+    background-color: rgb(0, 0, 0);
+    border: 2px solid goldenrod;
+    color: goldenrod;;
+}
+
+.tabs.show-secondary .secondary > li {
+    height: 25px;
+    padding: 0 10px;
+    background-color: black;
+    border: 2px solid black;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+}
+
+.secondary > li:last-of-type {
+    border-radius: 0 0 5px 5px;
+}
