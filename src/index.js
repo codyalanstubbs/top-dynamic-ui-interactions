@@ -65,33 +65,69 @@ function displayCollapsibleMenu(parentElement) {
 
 //displayCollapsibleMenu(document.body);
 
-const container = document.querySelector('.tabs')
-const primary = container.querySelector(".menu.horizontal");
-const primaryItems = container.querySelectorAll(".menu.horizontal > li:not(.more)");
-container.classList.add('--jsfied');
+function createTabsNav() {
+    const tabsNav = document.createElement("nav");
+    tabsNav.classList = "tabs";
+    return tabsNav;
+}
 
-primary.insertAdjacentHTML('beforeend', `
-    <li class="more">
-        <button class="menuButton" aria-haspopup="true" aria-expanded="false">More <span>&darr;</span></button>
-        <ul class="secondary">
-            ${primary.innerHTML}
-        </ul>
-    </li>
-`)
+function createMenuList(menuClassList) {
+    const menu = document.createElement("ul");
+    menu.classList = menuClassList;
+    return menu;
+}
 
-const secondary = container.querySelector(".secondary");
-const secondaryItems = secondary.querySelectorAll("li");
-const allItems = container.querySelectorAll("li");
-const moreLi = primary.querySelector(".more");
-const moreBtn = moreLi.querySelector(".menuButton");
+function createMenuItem(itemClass) {
+    const item = document.createElement("li");
+    item.classList = itemClass;
+    return item;
+}
 
-moreBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    container.classList.toggle('show-secondary')
-    moreBtn.setAttribute('aria-expanded', container.classList.contains('show-secondary'))
-})
+function createMenuLink(menuText, menuLink) {
+    const link = document.createElement("a");
+    link.setAttribute("href", (menuLink ? menuLink : "#"));
+    link.textContent = menuText;
+    return link;
+}
 
+function createMoreButton() {
+    const more = document.createElement("button");
+    more.setAttribute("aria-haspopup", "true");
+    more.setAttribute("aria-expanded", "false");
+    more.classList = "menuButton";
+    more.innerHTML = "More &#8595;";
+    return more;
+}
 
+function buildHorizontalMenu(itemsObject) {
+    const tabsNav = createTabsNav();
+    const menuList = createMenuList("menu horizontal");
+    const moreItem = createMenuItem("more");
+    const moreBtn = createMoreButton();
+    const secondaryList = createMenuList("secondary");
+
+    itemsObject.forEach((item) => {
+        // create visible horizontal menu items
+        const menuItem = createMenuItem("menuItem");
+        const menuLink = createMenuLink(item.text, item.link);
+        menuItem.appendChild(menuLink);
+        menuList.appendChild(menuItem);
+        
+        // create hidden vertical menu items
+        const hiddenItem = createMenuItem("menuItem hidden");
+        const hiddenLink = createMenuLink(item.text, item.link);
+        hiddenItem.appendChild(hiddenLink);
+        secondaryList.appendChild(hiddenItem);
+    })
+
+    moreItem.appendChild(moreBtn);
+    moreItem.appendChild(secondaryList);
+    menuList.appendChild(moreItem);
+    tabsNav.appendChild(menuList);
+
+    document.body.appendChild(tabsNav);
+}
+    
 function doAdapt() {
     // show all items for making calculations
     allItems.forEach((item) => {
@@ -123,19 +159,49 @@ function doAdapt() {
             }
         })
     }
+};
+
+function addCollapsibleInteractions() {
+    const container = document.querySelector(".tabs");
+    const primary = document.querySelector(".menu.horizontal");
+    const primaryItems = container.querySelectorAll(".menu.horizontal > li:not(.more)");
+    const secondary = container.querySelector(".secondary");
+    const secondaryItems = secondary.querySelectorAll("li");
+    const allItems = container.querySelectorAll("li");
+    const moreLi = primary.querySelector(".more");
+    const moreBtn = moreLi.querySelector(".menuButton");
+    
+    moreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        container.classList.toggle('show-secondary')
+        moreBtn.setAttribute('aria-expanded', container.classList.contains('show-secondary'))
+    });
+   
+    doAdapt();
+    window.addEventListener("resize", doAdapt);
+    
+    document.addEventListener('click', (e) => {
+        let el = e.target
+        while(el) {
+          if(el === secondary || el === moreBtn) {
+            return;
+          }
+          el = el.parentNode
+        }
+        container.classList.remove('show-secondary')
+        moreBtn.setAttribute('aria-expanded', false)
+    })
 }
 
-doAdapt();
-window.addEventListener("resize", doAdapt);
 
-document.addEventListener('click', (e) => {
-    let el = e.target
-    while(el) {
-      if(el === secondary || el === moreBtn) {
-        return;
-      }
-      el = el.parentNode
-    }
-    container.classList.remove('show-secondary')
-    moreBtn.setAttribute('aria-expanded', false)
-  })
+const itemsObject = [
+    {text: "About", link: "#"},
+    {text: "About", link: "#"},
+    {text: "About", link: "#"},
+    {text: "About", link: "#"},
+    {text: "About", link: "#"},
+    {text: "About", link: "#"},
+    {text: "About", link: "#"},
+];
+buildHorizontalMenu(itemsObject);
+addCollapsibleInteractions();
