@@ -127,39 +127,6 @@ function buildHorizontalMenu(itemsObject) {
 
     document.body.appendChild(tabsNav);
 }
-    
-function doAdapt() {
-    // show all items for making calculations
-    allItems.forEach((item) => {
-        item.classList.remove("hidden");
-    })
-    
-    // hid items that do not fit in the primary menu
-    let stopWidth = moreBtn.offsetWidth;
-    let hiddenItems = [];
-    const primaryWidth = primary.offsetWidth;
-    primaryItems.forEach((item, i) => {
-        if (primaryWidth >= stopWidth + item.offsetWidth) {
-            stopWidth += item.offsetWidth;
-        } else {
-            item.classList.add("hidden");
-            hiddenItems.push(i);
-        }
-    }) 
-    
-    // toggle visibility of more button and items in the more list
-    if (!hiddenItems.length) {
-        moreLi.classList.add("hidden");
-        container.classList.remove("show-secondary");
-        moreBtn.setAttribute("aria-expanded", false);
-    } else {
-        secondaryItems.forEach((item, i) => {
-            if(!hiddenItems.includes(i)) {
-              item.classList.add('hidden');
-            }
-        })
-    }
-};
 
 function addCollapsibleInteractions() {
     const container = document.querySelector(".tabs");
@@ -176,7 +143,40 @@ function addCollapsibleInteractions() {
         container.classList.toggle('show-secondary')
         moreBtn.setAttribute('aria-expanded', container.classList.contains('show-secondary'))
     });
-   
+    
+    function doAdapt() {
+         // show all items for making calculations
+         allItems.forEach((item) => {
+             item.classList.remove("hidden");
+         })
+         
+         // hid items that do not fit in the primary menu
+         let stopWidth = moreBtn.offsetWidth;
+         let hiddenItems = [];
+         const primaryWidth = primary.offsetWidth;
+         primaryItems.forEach((item, i) => {
+             if (primaryWidth >= stopWidth + item.offsetWidth) {
+                 stopWidth += item.offsetWidth;
+             } else {
+                 item.classList.add("hidden");
+                 hiddenItems.push(i);
+             }
+         }) 
+         
+         // toggle visibility of more button and items in the more list
+         if (!hiddenItems.length) {
+             moreLi.classList.add("hidden");
+             container.classList.remove("show-secondary");
+             moreBtn.setAttribute("aria-expanded", false);
+         } else {
+             secondaryItems.forEach((item, i) => {
+                 if(!hiddenItems.includes(i)) {
+                   item.classList.add('hidden');
+                 }
+             })
+         }
+    };
+    
     doAdapt();
     window.addEventListener("resize", doAdapt);
     
