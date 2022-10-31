@@ -207,87 +207,91 @@ const itemsObject = [
     {text: "About", link: "#"},
     {text: "About", link: "#"},
 ];
+
 // buildHorizontalMenu(itemsObject);
 // addCollapsibleInteractions();
-// let carouselDiv = document.querySelector(".carousel");
-// console.log(carouselDiv);
-// console.log("Image1: ", Image1);
-const images = [Image1, Image2, Image3];
-const carouselDiv = document.createElement("div");
-carouselDiv.classList = "carousel";
-carouselDiv.style.backgroundImage = `url(${Image1})`;
 
-const dotsDiv = document.createElement("div");
-dotsDiv.classList = "dots";
+function setSlideChangeTimeout(prevTimeOutID) {
+    clearTimeout(prevTimeOutID);
+    return setTimeout(()=>{changeImage("next")}, 5000);
+}
 
-images.forEach((image, imageIndex) => {
+let slideChangeTimeOutID;
+slideChangeTimeOutID = setSlideChangeTimeout(slideChangeTimeOutID);
 
-    const imgDot = document.createElement("div");
-    imgDot.classList = "imgDot";
-    imgDot.setAttribute("id", imageIndex); 
+function changeImage(nextOrPrev) {
+    const carouselDiv = document.querySelector(".carousel");
+    const prevImageIndex = Number(carouselDiv.id);
+    let nextImageIndex;
 
-    if (imageIndex === 0) {
-        carouselDiv.style.backgroundImage = `url(${image})`;
-        carouselDiv.setAttribute("id", imageIndex);
-        imgDot.classList.toggle("active");
+    if (nextOrPrev === "next") {
+        (prevImageIndex === images.length - 1 ) ? nextImageIndex = 0 : nextImageIndex = prevImageIndex + 1;
+    } else if (nextOrPrev === "prev") {
+        (prevImageIndex == 0) ? (nextImageIndex = images.length - 1) : (nextImageIndex = prevImageIndex - 1);
     }
 
-    imgDot.addEventListener('click', (e) => {
-        carouselDiv.style.backgroundImage = `url(${image})`;
-        carouselDiv.setAttribute("id", imageIndex);
-        const prevActiveImg = document.querySelector(".imgDot.active");
-        prevActiveImg.classList.toggle("active");
-        imgDot.classList.toggle("active");
+    carouselDiv.style.backgroundImage = `url(${images[nextImageIndex]})`;
+    carouselDiv.setAttribute("id", nextImageIndex);
+    const prevActiveImg = document.querySelector(`#\\3${prevImageIndex}.imgDot`);
+    prevActiveImg.classList.toggle("active");
+    document.querySelector(`#\\3${nextImageIndex}.imgDot`).classList.toggle("active");
+    slideChangeTimeOutID = setSlideChangeTimeout(slideChangeTimeOutID);
+}
+
+function buildCarousel(imagesArray) {
+    const carouselDiv = document.createElement("div");
+    carouselDiv.classList = "carousel";
+    carouselDiv.style.backgroundImage = `url(${Image1})`;
+
+    const dotsDiv = document.createElement("div");
+    dotsDiv.classList = "dots";
+
+    images.forEach((image, imageIndex) => {
+
+        const imgDot = document.createElement("div");
+        imgDot.classList = "imgDot";
+        imgDot.setAttribute("id", imageIndex); 
+
+        if (imageIndex === 0) {
+            carouselDiv.style.backgroundImage = `url(${image})`;
+            carouselDiv.setAttribute("id", imageIndex);
+            imgDot.classList.toggle("active");
+        }
+
+        imgDot.addEventListener('click', (e) => {
+            carouselDiv.style.backgroundImage = `url(${image})`;
+            carouselDiv.setAttribute("id", imageIndex);
+            const prevActiveImg = document.querySelector(".imgDot.active");
+            prevActiveImg.classList.toggle("active");
+            imgDot.classList.toggle("active");
+            slideChangeTimeOutID = setSlideChangeTimeout(slideChangeTimeOutID);
+        })
+
+        dotsDiv.appendChild(imgDot);    
     })
 
-    dotsDiv.appendChild(imgDot);    
-})
+    const arrowsDiv = document.createElement("div");
+    arrowsDiv.classList = "arrows";
 
-const arrowsDiv = document.createElement("div");
-arrowsDiv.classList = "arrows";
+    const arrowLeft = document.createElement("div");
+    arrowLeft.classList = "arrowLeft";
+    arrowLeft.textContent = "<";
+    arrowLeft.addEventListener("click", () => {
+        changeImage("prev");
+    });
 
-const arrowLeft = document.createElement("div");
-arrowLeft.classList = "arrowLeft";
-arrowLeft.textContent = "<";
-arrowLeft.addEventListener("click", (e) => {
-    const prevImageIndex = Number(carouselDiv.id);
-    let nextImageIndex;
-    if (prevImageIndex == 0) { 
-        nextImageIndex = images.length - 1 
-    } else {
-        nextImageIndex = prevImageIndex - 1 
-    }
+    const arrowRight = document.createElement("div");
+    arrowRight.classList = "arrowRight";
+    arrowRight.textContent = ">";
+    arrowRight.addEventListener("click", () => {
+        changeImage("next");
+    });
 
-    carouselDiv.style.backgroundImage = `url(${images[nextImageIndex]})`;
-    carouselDiv.setAttribute("id", nextImageIndex);
-    const prevActiveImg = document.querySelector(`#\\3${prevImageIndex}.imgDot`);
-    prevActiveImg.classList.toggle("active");
-    document.querySelector(`#\\3${nextImageIndex}.imgDot`).classList.toggle("active");
-})
-
-const arrowRight = document.createElement("div");
-arrowRight.classList = "arrowRight";
-arrowRight.textContent = ">";
-arrowRight.addEventListener("click", (e) => {
-    const prevImageIndex = Number(carouselDiv.id);
-    console.log(prevImageIndex);
-    let nextImageIndex;
-    if (prevImageIndex === images.length - 1 ) { 
-        nextImageIndex = 0
-    } else {
-        nextImageIndex = prevImageIndex + 1 
-    }
-
-    carouselDiv.style.backgroundImage = `url(${images[nextImageIndex]})`;
-    carouselDiv.setAttribute("id", nextImageIndex);
-    const prevActiveImg = document.querySelector(`#\\3${prevImageIndex}.imgDot`);
-    console.log(prevActiveImg);
-    prevActiveImg.classList.toggle("active");
-    document.querySelector(`#\\3${nextImageIndex}.imgDot`).classList.toggle("active");
-})
-
-arrowsDiv.appendChild(arrowLeft);
-arrowsDiv.appendChild(arrowRight);
-carouselDiv.appendChild(arrowsDiv);
-carouselDiv.appendChild(dotsDiv);
-document.body.appendChild(carouselDiv);
+    arrowsDiv.appendChild(arrowLeft);
+    arrowsDiv.appendChild(arrowRight);
+    carouselDiv.appendChild(arrowsDiv);
+    carouselDiv.appendChild(dotsDiv);
+    document.body.appendChild(carouselDiv);
+}
+const images = [Image1, Image2, Image3];
+buildCarousel(images);
