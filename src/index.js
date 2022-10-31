@@ -209,7 +209,40 @@ const itemsObject = [
 ];
 // buildHorizontalMenu(itemsObject);
 // addCollapsibleInteractions();
-let carouselDiv = document.querySelector(".carousel");
-console.log(carouselDiv);
-console.log("Image1: ", Image1);
+// let carouselDiv = document.querySelector(".carousel");
+// console.log(carouselDiv);
+// console.log("Image1: ", Image1);
+const images = [Image1, Image2, Image3];
+const carouselDiv = document.createElement("div");
+carouselDiv.classList = "carousel";
 carouselDiv.style.backgroundImage = `url(${Image1})`;
+
+const arrowsDiv = document.createElement("div");
+arrowsDiv.classList = "arrows";
+
+const arrowLeft = document.createElement("div");
+arrowLeft.classList = "arrowLeft";
+arrowLeft.textContent = "<";
+
+const arrowRight = document.createElement("div");
+arrowRight.classList = "arrowRight";
+arrowRight.textContent = ">";
+
+const dotsDiv = document.createElement("div");
+dotsDiv.classList = "dots";
+
+images.forEach((image, imageIndex) => {
+    if (imageIndex === 0) {
+        carouselDiv.style.backgroundImage = `url(${image})`;
+    }
+    const imgDot = document.createElement("div");
+    imgDot.classList = "imgDot";
+    imgDot.setAttribute("id", imageIndex); 
+    dotsDiv.appendChild(imgDot);    
+})
+
+arrowsDiv.appendChild(arrowLeft);
+arrowsDiv.appendChild(arrowRight);
+carouselDiv.appendChild(arrowsDiv);
+carouselDiv.appendChild(dotsDiv);
+document.body.appendChild(carouselDiv);
