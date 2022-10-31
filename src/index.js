@@ -217,33 +217,73 @@ const carouselDiv = document.createElement("div");
 carouselDiv.classList = "carousel";
 carouselDiv.style.backgroundImage = `url(${Image1})`;
 
+const dotsDiv = document.createElement("div");
+dotsDiv.classList = "dots";
+
+images.forEach((image, imageIndex) => {
+
+    const imgDot = document.createElement("div");
+    imgDot.classList = "imgDot";
+    imgDot.setAttribute("id", imageIndex); 
+
+    if (imageIndex === 0) {
+        carouselDiv.style.backgroundImage = `url(${image})`;
+        carouselDiv.setAttribute("id", imageIndex);
+        imgDot.classList.toggle("active");
+    }
+
+    imgDot.addEventListener('click', (e) => {
+        carouselDiv.style.backgroundImage = `url(${image})`;
+        carouselDiv.setAttribute("id", imageIndex);
+        const prevActiveImg = document.querySelector(".imgDot.active");
+        prevActiveImg.classList.toggle("active");
+        imgDot.classList.toggle("active");
+    })
+
+    dotsDiv.appendChild(imgDot);    
+})
+
 const arrowsDiv = document.createElement("div");
 arrowsDiv.classList = "arrows";
 
 const arrowLeft = document.createElement("div");
 arrowLeft.classList = "arrowLeft";
 arrowLeft.textContent = "<";
+arrowLeft.addEventListener("click", (e) => {
+    const prevImageIndex = Number(carouselDiv.id);
+    let nextImageIndex;
+    if (prevImageIndex == 0) { 
+        nextImageIndex = images.length - 1 
+    } else {
+        nextImageIndex = prevImageIndex - 1 
+    }
+
+    carouselDiv.style.backgroundImage = `url(${images[nextImageIndex]})`;
+    carouselDiv.setAttribute("id", nextImageIndex);
+    const prevActiveImg = document.querySelector(`#\\3${prevImageIndex}.imgDot`);
+    prevActiveImg.classList.toggle("active");
+    document.querySelector(`#\\3${nextImageIndex}.imgDot`).classList.toggle("active");
+})
 
 const arrowRight = document.createElement("div");
 arrowRight.classList = "arrowRight";
 arrowRight.textContent = ">";
-
-const dotsDiv = document.createElement("div");
-dotsDiv.classList = "dots";
-
-images.forEach((image, imageIndex) => {
-    if (imageIndex === 0) {
-        carouselDiv.style.backgroundImage = `url(${image})`;
+arrowRight.addEventListener("click", (e) => {
+    const prevImageIndex = Number(carouselDiv.id);
+    console.log(prevImageIndex);
+    let nextImageIndex;
+    if (prevImageIndex === images.length - 1 ) { 
+        nextImageIndex = 0
+    } else {
+        nextImageIndex = prevImageIndex + 1 
     }
-    const imgDot = document.createElement("div");
-    imgDot.classList = "imgDot";
-    imgDot.setAttribute("id", imageIndex); 
 
-    imgDot.addEventListener('click', (e) => {
-        carouselDiv.style.backgroundImage = `url(${image})`;
-    })
-
-    dotsDiv.appendChild(imgDot);    
+    carouselDiv.style.backgroundImage = `url(${images[nextImageIndex]})`;
+    carouselDiv.setAttribute("id", nextImageIndex);
+    const prevActiveImg = document.querySelector(`#\\3${prevImageIndex}.imgDot`);
+    console.log(prevActiveImg);
+    prevActiveImg.classList.toggle("active");
+    document.querySelector(`#\\3${nextImageIndex}.imgDot`).classList.toggle("active");
 })
 
 arrowsDiv.appendChild(arrowLeft);

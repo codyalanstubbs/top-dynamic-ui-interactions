@@ -8,6 +8,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-color: lightgrey;
+    transition: background-image 2s;
 }
 
 .arrows {
@@ -34,6 +35,18 @@
 .imgDot {
     height: 10px;
     width: 10px;
-    background-color: black;
+    background-color: grey;
+    border: 2px solid white;
     border-radius: 50%;
 } 
+
+.imgDot:hover {   
+    background-color: lightgray;
+    border: 2px solid black;
+}
+
+.imgDot.active {
+    background-color: black;
+    border: 2px solid grey;
+    transition: background-color 2s;
+}
