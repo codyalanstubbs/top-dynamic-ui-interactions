@@ -1,9 +1,9 @@
 //import './drop-down.css';
 // import './horizontal-collapsible-more.css';
 import './image-slider.css';
-import Image1 from './flavor-wheel_linesize-1_300x300-1.png';
-import Image2 from './flavor-wheel_linesize-1_300x300-2.png';
-import Image3 from './flavor-wheel_linesize-1_300x300-3.png';
+import Image1 from './img1.png';
+import Image2 from './img2.png';
+import Image3 from './img3.png';
 
 function buildMenu(itemsArray, parentElement, menuText) {
     const menuID = document.querySelectorAll(".menu").length + 1;
@@ -238,6 +238,11 @@ images.forEach((image, imageIndex) => {
     const imgDot = document.createElement("div");
     imgDot.classList = "imgDot";
     imgDot.setAttribute("id", imageIndex); 
+
+    imgDot.addEventListener('click', (e) => {
+        carouselDiv.style.backgroundImage = `url(${image})`;
+    })
+
     dotsDiv.appendChild(imgDot);    
 })
 
