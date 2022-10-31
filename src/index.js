@@ -1,5 +1,6 @@
 //import './drop-down.css';
-import './horizontal-collapsible-more.css';
+// import './horizontal-collapsible-more.css';
+import './image-slider.css';
 
 function buildMenu(itemsArray, parentElement, menuText) {
     const menuID = document.querySelectorAll(".menu").length + 1;
@@ -203,5 +204,5 @@ const itemsObject = [
     {text: "About", link: "#"},
     {text: "About", link: "#"},
 ];
-buildHorizontalMenu(itemsObject);
-addCollapsibleInteractions();
+// buildHorizontalMenu(itemsObject);
+// addCollapsibleInteractions();

@@ -1,0 +1,36 @@
+.carousel {
+    height: 300px;
+    width: 600px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.arrows {
+    height: 90%;
+    width: 98%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} 
+
+.arrows > * {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.dots {
+    height: 10%;
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.imgDot {
+    height: 10px;
+    width: 10px;
+    background-color: black;
+    border-radius: 50%;
+} 
